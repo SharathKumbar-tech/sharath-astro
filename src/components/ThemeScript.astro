@@ -1,0 +1,76 @@
+---
+
+---
+
+<script type="module" is:inline>
+  function getPreferredTheme() {
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme) return savedTheme;
+
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+
+  function applyTheme(document, theme) {
+    document.documentElement.dataset.theme = theme;
+  }
+
+  function setToggleStates(theme) {
+    const themeToggles = document.querySelectorAll(".theme-controller");
+
+    themeToggles.forEach((toggle) => {
+      toggle.checked = theme === "light";
+    });
+  }
+
+  let currentTheme = getPreferredTheme();
+
+  applyTheme(document, currentTheme);
+
+  if (document.readyState !== "loading") {
+    setToggleStates(currentTheme);
+  }
+
+  document.addEventListener("astro:before-swap", (event) => {
+    applyTheme(event.newDocument, currentTheme);
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const themeToggles = document.querySelectorAll(".theme-controller");
+
+    setToggleStates(currentTheme);
+
+    themeToggles.forEach((toggle) => {
+      toggle.addEventListener("change", () => {
+        const newTheme = toggle.checked ? "light" : "dark";
+
+        currentTheme = newTheme;
+
+        document.documentElement.dataset.theme = newTheme;
+        localStorage.setItem("theme", newTheme);
+
+        themeToggles.forEach((otherToggle) => {
+          if (otherToggle !== toggle) {
+            otherToggle.checked = newTheme === "light";
+          }
+        });
+      });
+    });
+  });
+
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (event) => {
+      if (!localStorage.getItem("theme")) {
+        const systemTheme = event.matches ? "dark" : "light";
+
+        currentTheme = systemTheme;
+
+        applyTheme(document, systemTheme);
+
+        setToggleStates(systemTheme);
+      }
+    });
+</script>

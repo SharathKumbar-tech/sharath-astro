@@ -1,0 +1,26 @@
+---
+import { pages } from "@/configs/pages";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageLayout from "@/layouts/PageLayout.astro";
+---
+
+<BaseLayout
+  title={pages.notFound.title}
+  description={pages.notFound.description}
+  keywords={pages.notFound.keywords}
+  noIndex
+>
+  <PageLayout heading={pages.notFound.heading}>
+    <section>
+      <p>The page you're looking for does not exist.</p>
+    </section>
+    <section class="mt-8">
+      <p>
+        <a href="/" class="inline-flex items-center gap-1" rel="up">
+          <span class="icon-[lucide--arrow-left]" aria-hidden="true"></span>
+          Go back to home
+        </a>
+      </p>
+    </section>
+  </PageLayout>
+</BaseLayout>

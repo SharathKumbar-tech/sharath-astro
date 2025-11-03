@@ -1,11 +1,108 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { pages } from "@/configs/pages";
+import { techDaily, techLearning, techLove, titles } from "@/configs/tech";
+import { urls } from "@/configs/urls";
+import Welcome from '@/components/Welcome.astro';
+import Layout from '@/layouts/Layout.astro';
+import PageLayout from '@/layouts/PageLayout.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
+<Layout 
+	title={pages.home.title}
+  	description={pages.home.description}
+  	keywords={pages.home.keywords}
+>
+	<!--<Welcome />-->
+	<PageLayout heading={pages.home.heading}>
+		<section class="space-y-6">
+			<p>
+				I build high-performance, scalable systems that are a joy for engineers
+				to work with. I have a passion for the craft of creating software,
+				blending hands-on coding with technical strategy. Along the way, I guide
+				engineering teams, improve developer experience at scale, and design
+				modern architectures that make a lasting impact across teams and
+				products.
+			</p>
+		</section>
+
+		<section class="space-y-4">
+			<p>
+				<span>{titles.love}:</span>
+				{
+				techLove.flatMap((tech, index) => [
+					<a
+					href={tech.link}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="inline-flex link items-center gap-1"
+					>
+					<span class:list={[tech.icon, "hidden h-4 w-5 sm:inline"]} />
+					{tech.title}
+					</a>,
+					index < techLove.length - 1 && ", ",
+				])
+				}.
+			</p>
+
+			<p>
+				<span>{titles.daily}:</span>
+				{
+				techDaily.flatMap((tech, index) => [
+					<a
+					href={tech.link}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="inline-flex items-center gap-1"
+					>
+					<span class:list={[tech.icon, "hidden h-4 w-5 sm:inline"]} />
+					{tech.title}
+					</a>,
+					index < techDaily.length - 1 && ", ",
+				])
+				}.
+			</p>
+
+			<p>
+				<span>{titles.learning}:</span>
+				{
+				techLearning.flatMap((tech, index) => [
+					<a
+					href={tech.link}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="inline-flex items-center gap-1"
+					>
+					<span class:list={[tech.icon, "hidden h-4 w-5 sm:inline"]} />
+					{tech.title}
+					</a>,
+					index < techLearning.length - 1 && ", ",
+				])
+				}.
+			</p>
+		</section>
+
+		<section class="space-y-6">
+			<p>
+				Find me on <a
+				href={urls.GitHub}
+				target="_blank"
+				rel="noopener noreferrer"
+				>
+				GitHub</a
+				> and <a href={urls.LinkedIn} target="_blank" rel="noopener noreferrer"
+				>LinkedIn</a
+				>. Or email me at <a href={urls.email}>hi@sharath.codes</a>.
+			</p>
+
+			<p>
+				Read <a href="/blog">my blog</a>, learn more <a href="/about"
+				>about me</a
+				>, or take a look at <a href="/resume.pdf" download>my resume</a>.
+			</p>
+			</section>
+		
+	</PageLayout>
 </Layout>

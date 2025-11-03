@@ -1,0 +1,102 @@
+---
+import { desktop, mobile } from "@/configs/nav";
+import Logo from "./Logo.astro";
+import ThemeController from "./ThemeController.astro";
+
+const ext = (link: { external?: boolean }) => {
+  return link.external ? { target: "_blank", rel: "noopener noreferrer" } : {};
+};
+
+
+const { mobilePrimary = [], mobileDropdown = [] } = mobile.reduce((acc, link) => {
+  const key = link.primary ? "mobilePrimary" : "mobileDropdown";
+  (acc[key] ||= []).push(link);
+  return acc;
+}, {});
+---
+
+<nav class="navbar">
+  <div class="flex-1">
+    <a href="/" class="btn gap-2 btn-ghost btn-sm lg:btn-md">
+      <Logo className="h-5 w-5 md:h-6 md:w-6" aria-hidden="true" />
+      <span class="hidden md:inline md:text-base lg:hidden" aria-hidden="true"
+        >JGM</span
+      >
+      <span class="hidden lg:inline lg:text-base" aria-hidden="true"
+        >Sharath Kumbar</span
+      >
+      <span class="sr-only">Sharath Kumbar</span>
+    </a>
+  </div>
+
+  <div class="flex flex-none items-center gap-1">
+    <div class="flex items-center gap-1 md:hidden">
+      {
+        mobilePrimary.map((link) => (
+          <a
+            href={link.href}
+            class="btn btn-ghost btn-sm"
+            {...ext(link)}
+            download={link.download}
+          >
+            <span class="sr-only">{link.label}</span>
+            <span class:list={[link.icon, "h-4", "w-4"]} aria-hidden="true" />
+          </a>
+        ))
+      }
+
+      <ThemeController />
+
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+          <span class="sr-only">More</span>
+          <span class="icon-[lucide--menu] h-5 w-5" aria-hidden="true"></span>
+        </div>
+        <ul
+          tabindex="0"
+          class="dropdown-content menu z-[1] w-34 rounded-box border border-base-200 bg-base-100 text-sm shadow"
+        >
+          {
+            mobileDropdown.map((link) => (
+              <li>
+                <a href={link.href} {...ext(link)} download={link.download}>
+                  <span
+                    class:list={[link.icon, "h-4 w-4"]}
+                    aria-hidden="true"
+                  />
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="hidden items-center gap-1 md:flex">
+      {
+        desktop.map((link) => (
+          <a
+            href={link.href}
+            class="btn btn-ghost btn-sm lg:btn-md"
+            {...ext(link)}
+            download={link.download}
+          >
+            <span class:list={["sr-only", { "lg:not-sr-only": link.primary }]}>
+              {link.label}
+            </span>
+            <span
+              class:list={[
+                link.icon,
+                "h-4 w-4 md:h-5 md:w-5",
+                { "lg:hidden": link.primary },
+              ]}
+              aria-hidden="true"
+            />
+          </a>
+        ))
+      }
+      <ThemeController />
+    </div>
+  </div>
+</nav>
