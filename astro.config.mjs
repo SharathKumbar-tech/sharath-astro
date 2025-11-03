@@ -1,6 +1,7 @@
 // @ts-check
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import vercel from "@astrojs/vercel";
 import { transformerColorizedBrackets } from "@shikijs/colorized-brackets";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, fontProviders } from "astro/config";
@@ -13,6 +14,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  adapter: vercel(),
   experimental: {
     clientPrerender: true,
     fonts: [
