@@ -1,10 +1,10 @@
 ---
 import { pages } from "@/configs/pages";
-import BaseLayout from "@/layouts/BaseLayout.astro";
+import Layout from '@/layouts/Layout.astro';
 import PageLayout from "@/layouts/PageLayout.astro";
 ---
 
-<BaseLayout
+<Layout
   title={pages.notFound.title}
   description={pages.notFound.description}
   keywords={pages.notFound.keywords}
@@ -23,4 +23,4 @@ import PageLayout from "@/layouts/PageLayout.astro";
       </p>
     </section>
   </PageLayout>
-</BaseLayout>
+</Layout>
