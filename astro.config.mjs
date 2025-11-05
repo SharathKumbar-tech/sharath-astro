@@ -11,6 +11,8 @@ import expressiveCodeTwoSlash from "expressive-code-twoslash";
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://sharathkumbar-tech.github.io/sharath-astro',
+  base:'/sharath-astro/',
   vite: {
     plugins: [tailwindcss()],
   },
